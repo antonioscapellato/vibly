@@ -71,6 +71,7 @@ export default async function handler(
 1. Clarity: Comment on pronunciation, pace, and enunciation
 2. Vocabulary: Suggest more precise or sophisticated word choices
 3. Structure: Note any improvements in sentence structure or flow
+4. Grammar: Highlight any grammatical errors and provide corrections
 Keep each section brief and encouraging. Focus on 1-2 key points per category.`
           },
           {

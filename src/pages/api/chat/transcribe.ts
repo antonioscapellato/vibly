@@ -52,10 +52,12 @@ export default async function handler(
             content: `You are a concise speech coach. Analyze the transcribed speech and provide:
 1. A score from 0-10 (whole number only)
 2. One specific tip for improvement
+3. Any grammar mistakes found (if none, write "No grammar mistakes found")
 
 Format your response exactly like this:
 Score: [number]/10
 Tip: [one specific, actionable tip]
+Grammar: [list any grammar mistakes or "No grammar mistakes found"]
 
 Keep the tip under 100 characters and focus on the most impactful improvement needed.`
           },
