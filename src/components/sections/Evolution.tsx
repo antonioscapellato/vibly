@@ -40,11 +40,37 @@ export const Evolution = () => {
           </motion.p>
           <motion.div 
             variants={fadeIn}
-            className="relative h-64 bg-white rounded-2xl shadow-lg"
+            className="relative h-64 bg-white rounded-2xl shadow-lg mb-20"
           >
             {/* Timeline visualization placeholder */}
             <div className="absolute inset-0 flex items-center justify-center">
               <p className="text-gray-500">Timeline visualization coming soon</p>
+            </div>
+          </motion.div>
+
+          <motion.h2 
+            variants={fadeIn}
+            className="text-4xl font-bold text-black mb-6"
+          >
+            Learning today is broken.
+          </motion.h2>
+          <motion.p 
+            variants={fadeIn}
+            className="text-xl text-gray-600 mb-12"
+          >
+            Workbooks. Memorization. Silence. We don't learn like this — and we never did.
+          </motion.p>
+          <motion.div 
+            variants={fadeIn}
+            className="grid md:grid-cols-2 gap-8 items-center"
+          >
+            <div className="bg-gray-100 rounded-2xl p-8">
+              <h3 className="text-2xl font-semibold mb-4 text-black">Traditional Learning</h3>
+              <p className="text-gray-600">Static textbooks and repetitive exercises</p>
+            </div>
+            <div className="bg-fuchsia-50 rounded-2xl p-8">
+              <h3 className="text-2xl font-semibold mb-4 text-black">Vibly's Approach</h3>
+              <p className="text-gray-600">Dynamic conversations with real people</p>
             </div>
           </motion.div>
         </motion.div>

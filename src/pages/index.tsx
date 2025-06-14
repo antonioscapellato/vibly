@@ -22,12 +22,7 @@ const staggerContainer = {
 };
 
 import { Hero } from "../components/sections/Hero";
-import { Problem } from "../components/sections/Problem";
 import { Evolution } from "../components/sections/Evolution";
-import { EnglishFirst } from "../components/sections/EnglishFirst";
-import { HowItWorks } from "../components/sections/HowItWorks";
-import { Testimonials } from "../components/sections/Testimonials";
-import { CTA } from "../components/sections/CTA";
 import { Footer } from "../components/sections/Footer";
 
 export default function Home() {
@@ -42,12 +37,7 @@ export default function Home() {
 
       <main>
         <Hero />
-        <Problem />
         <Evolution />
-        <EnglishFirst />
-        <HowItWorks />
-        <Testimonials />
-        <CTA />
         <Footer />
       </main>
     </>
