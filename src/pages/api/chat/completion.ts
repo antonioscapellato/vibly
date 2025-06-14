@@ -16,10 +16,14 @@ export default async function handler(
 
   try {
     const { messages, tutorId } = req.body;
+    console.log('Received request with tutorId:', tutorId);
+    console.log('Messages:', messages);
+
     const tutorConfig = getTutorConfig(tutorId);
+    console.log('Tutor config:', tutorConfig);
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "o3-2025-04-16",
       messages: [
         {
           role: "system",
@@ -30,8 +34,10 @@ export default async function handler(
     });
 
     const response = completion.choices[0].message;
+    console.log('OpenAI response:', response);
 
     // Get audio from ElevenLabs
+    console.log('Calling ElevenLabs with voiceId:', tutorConfig.voiceId);
     const audioResponse = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${tutorConfig.voiceId}`,
       {
@@ -53,7 +59,8 @@ export default async function handler(
     );
 
     if (!audioResponse.ok) {
-      console.error('ElevenLabs API error:', await audioResponse.text());
+      const errorText = await audioResponse.text();
+      console.error('ElevenLabs API error:', errorText);
       return res.status(500).json({ 
         message: 'Failed to generate audio response',
         text: response.content 
@@ -61,13 +68,14 @@ export default async function handler(
     }
 
     const audioBuffer = await audioResponse.arrayBuffer();
+    console.log('Successfully generated audio response');
 
     return res.status(200).json({
       text: response.content,
       audio: Buffer.from(audioBuffer).toString('base64'),
     });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Detailed error:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }

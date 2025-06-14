@@ -162,7 +162,11 @@ export default function TutorChat() {
         }),
       });
 
-      const { text: aiResponse, audio: audioBase64 } = await response.json();
+      console.log('Completion response status:', response.status);
+      const responseData = await response.json();
+      console.log('Completion response data:', responseData);
+
+      const { text: aiResponse, audio: audioBase64 } = responseData;
 
       const aiMessage: Message = {
         id: messages.length + 2,
