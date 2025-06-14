@@ -49,35 +49,35 @@ export default function Home() {
 
           {/* Progress Section */}
           <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="p-6">
+            <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Daily Streak</h3>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border border-default-100 p-6 rounded-xl">
                 <span className="text-3xl font-bold">7 days</span>
-                <Progress value={70} className="w-24" />
+                <Progress color={"success"} value={70} className="w-24" />
               </div>
-            </Card>
-            <Card className="p-6">
+            </div>
+            <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Words Learned</h3>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border border-default-100 p-6 rounded-xl">
                 <span className="text-3xl font-bold">245</span>
-                <Progress value={45} className="w-24" />
+                <Progress color={"success"} value={45} className="w-24" />
               </div>
-            </Card>
-            <Card className="p-6">
+            </div>
+            <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Conversation Time</h3>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border border-default-100 p-6 rounded-xl">
                 <span className="text-3xl font-bold">12h</span>
-                <Progress value={60} className="w-24" />
+                <Progress color={"success"} value={60} className="w-24" />
               </div>
-            </Card>
+            </div>
           </motion.div>
 
           {/* Tutors List */}
           <motion.div variants={fadeIn} className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Tutors you can talk with</h2>
+            <h2 className="text-2xl font-bold mb-4 pl-6">Tutors you can talk with</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {allTutors.map((tutor) => (
-                <Card 
+                <div 
                   key={tutor.id}
                   className="p-6 cursor-pointer"
                   onClick={() => router.push(`/app/chat/${tutor.id}`)}
@@ -93,7 +93,7 @@ export default function Home() {
                   <Button className="mt-4 w-full bg-black hover:bg-default-900 text-white" onClick={() => router.push(`/app/chat/${tutor.id}`)}>
                     {tutor.button}
                   </Button>
-                </Card>
+                </div>
               ))}
             </div>
           </motion.div>
