@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button, Card, Avatar, Progress, Tabs, Tab } from "@heroui/react";
 import { useRouter } from "next/router";
+import Head from 'next/head';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -54,77 +55,83 @@ export default function Profile() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={staggerContainer}
-        className="max-w-4xl mx-auto"
-      >
-        {/* Profile Header */}
-        <motion.div variants={fadeIn} className="flex items-center space-x-6 mb-8">
-          <Avatar 
-            src="/assets/characters/english.png" 
-            alt="Profile" 
-            className="w-24 h-24"
-          />
-          <div>
-            <h1 className="text-3xl font-bold">John Doe</h1>
-            <p className="text-gray-600">Language Learner</p>
-            <Button 
-              className="mt-2 bg-fuchsia-500 hover:bg-fuchsia-600 text-white"
-              onClick={() => router.push('/app/home')}
-            >
-              Back to Dashboard
-            </Button>
-          </div>
-        </motion.div>
+    <>
+      <Head>
+        <title>Vibly - Profile</title>
+        <link rel="icon" href="/logo.png" />
+      </Head>
+      <div className="container mx-auto px-4 py-8">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="max-w-4xl mx-auto"
+        >
+          {/* Profile Header */}
+          <motion.div variants={fadeIn} className="flex items-center space-x-6 mb-8">
+            <Avatar 
+              src="/assets/characters/english.png" 
+              alt="Profile" 
+              className="w-24 h-24"
+            />
+            <div>
+              <h1 className="text-3xl font-bold">John Doe</h1>
+              <p className="text-gray-600">Language Learner</p>
+              <Button 
+                className="mt-2 bg-fuchsia-500 hover:bg-fuchsia-600 text-white"
+                onClick={() => router.push('/app/home')}
+              >
+                Back to Dashboard
+              </Button>
+            </div>
+          </motion.div>
 
-        {/* Tabs */}
-        <Tabs aria-label="Profile Sections" className="mb-8">
-          <Tab key="languages" title="Languages">
-            <motion.div variants={fadeIn} className="space-y-6">
-              {languages.map((language) => (
-                <Card key={language.name} className="p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold">{language.name}</h3>
-                      <p className="text-gray-600">{language.level}</p>
+          {/* Tabs */}
+          <Tabs aria-label="Profile Sections" className="mb-8">
+            <Tab key="languages" title="Languages">
+              <motion.div variants={fadeIn} className="space-y-6">
+                {languages.map((language) => (
+                  <Card key={language.name} className="p-6">
+                    <div className="flex justify-between items-center mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold">{language.name}</h3>
+                        <p className="text-gray-600">{language.level}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">{language.streak} day streak</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-500">{language.streak} day streak</p>
-                    </div>
+                    <Progress value={language.progress} className="w-full" />
+                  </Card>
+                ))}
+              </motion.div>
+            </Tab>
+            <Tab key="achievements" title="Achievements">
+              <motion.div variants={fadeIn} className="space-y-4">
+                {achievements.map((achievement) => (
+                  <Card key={achievement.title} className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{achievement.title}</h3>
+                    <p className="text-gray-600 mb-2">{achievement.description}</p>
+                    <p className="text-sm text-gray-500">Earned {achievement.date}</p>
+                  </Card>
+                ))}
+              </motion.div>
+            </Tab>
+            <Tab key="settings" title="Settings">
+              <motion.div variants={fadeIn} className="space-y-4">
+                <Card className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">Account Settings</h3>
+                  <div className="space-y-4">
+                    <Button className="w-full">Edit Profile</Button>
+                    <Button className="w-full">Notification Preferences</Button>
+                    <Button className="w-full">Privacy Settings</Button>
                   </div>
-                  <Progress value={language.progress} className="w-full" />
                 </Card>
-              ))}
-            </motion.div>
-          </Tab>
-          <Tab key="achievements" title="Achievements">
-            <motion.div variants={fadeIn} className="space-y-4">
-              {achievements.map((achievement) => (
-                <Card key={achievement.title} className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{achievement.title}</h3>
-                  <p className="text-gray-600 mb-2">{achievement.description}</p>
-                  <p className="text-sm text-gray-500">Earned {achievement.date}</p>
-                </Card>
-              ))}
-            </motion.div>
-          </Tab>
-          <Tab key="settings" title="Settings">
-            <motion.div variants={fadeIn} className="space-y-4">
-              <Card className="p-6">
-                <h3 className="text-xl font-semibold mb-4">Account Settings</h3>
-                <div className="space-y-4">
-                  <Button className="w-full">Edit Profile</Button>
-                  <Button className="w-full">Notification Preferences</Button>
-                  <Button className="w-full">Privacy Settings</Button>
-                </div>
-              </Card>
-            </motion.div>
-          </Tab>
-        </Tabs>
-      </motion.div>
-    </div>
+              </motion.div>
+            </Tab>
+          </Tabs>
+        </motion.div>
+      </div>
+    </>
   );
 }

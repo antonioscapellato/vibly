@@ -52,6 +52,14 @@ export default async function handler(
       }
     );
 
+    if (!audioResponse.ok) {
+      console.error('ElevenLabs API error:', await audioResponse.text());
+      return res.status(500).json({ 
+        message: 'Failed to generate audio response',
+        text: response.content 
+      });
+    }
+
     const audioBuffer = await audioResponse.arrayBuffer();
 
     return res.status(200).json({

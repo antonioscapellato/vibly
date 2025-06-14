@@ -32,7 +32,7 @@ export default function Home() {
         <title>Vibly - Learn with people. Speak your world.</title>
         <meta name="description" content="Vibly is the future of language learning — social, immersive, and built around real conversations." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       <main>
