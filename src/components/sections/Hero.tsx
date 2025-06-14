@@ -130,13 +130,13 @@ export const Hero = () => {
         >
           <motion.h1 
             variants={fadeIn}
-            className="text-5xl md:text-7xl font-bold text-black mb-6"
+            className="text-5xl font-black md:text-7xl text-black mb-6"
           >
             Learning in a human way
           </motion.h1>
           <motion.p 
             variants={fadeIn}
-            className="text-xl md:text-2xl text-gray-600 mb-8"
+            className="text-2xl md:text-4xl text-gray-600 mb-8"
           >
             Learnings for human
           </motion.p>
