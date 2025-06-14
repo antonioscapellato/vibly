@@ -17,6 +17,7 @@ import Head from 'next/head';
 
 import { getTutorConfig } from '@/config/tutors';
 import { LuPlay, LuPause, LuMessageSquare, LuDownload, LuX, LuArrowLeftRight } from 'react-icons/lu';
+import { TutorConfig } from '@/config/tutors';
 
 // Add type definitions for Web Speech API
 interface SpeechRecognitionEvent extends Event {
@@ -84,6 +85,13 @@ interface Message {
   speechTip?: string;
 }
 
+interface Scenario {
+  id: string;
+  title: string;
+  description: string;
+  prompt: string;
+}
+
 export default function TutorChat() {
   const router = useRouter();
   const { tutor: tutorId } = router.query;
@@ -101,7 +109,10 @@ export default function TutorChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const messageCounterRef = useRef<number>(0);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isChatModalOpen, onOpen: onChatModalOpen, onClose: onChatModalClose } = useDisclosure();
+  const { isOpen: isScenarioModalOpen, onOpen: onScenarioModalOpen, onClose: onScenarioModalClose } = useDisclosure();
+  const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
+  const [showScenarioModal, setShowScenarioModal] = useState(true);
   const [conversationStartTime] = useState(new Date());
 
   useEffect(() => {
@@ -109,14 +120,12 @@ export default function TutorChat() {
       try {
         const config = getTutorConfig(tutorId);
         setTutorConfig(config);
-        setMessages([
-          {
-            id: 1,
-            text: `Hello! I'm ${config.name}, your ${config.role}. How can I help you today?`,
-            sender: 'tutor',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          }
-        ]);
+        if (config.scenarios.length > 0) {
+          setShowScenarioModal(true);
+          onScenarioModalOpen();
+        } else {
+          initializeChat(config);
+        }
       } catch (error) {
         console.error('Error loading tutor:', error);
         router.push('/app');
@@ -151,6 +160,29 @@ export default function TutorChat() {
       }
     }
   }, []);
+
+  const initializeChat = (config: TutorConfig, scenarioId?: string) => {
+    const scenario = scenarioId ? config.scenarios.find((s: Scenario) => s.id === scenarioId) : null;
+    const initialPrompt = scenario ? scenario.prompt : config.systemPrompt;
+    
+    setMessages([
+      {
+        id: 1,
+        text: `Hello! I'm ${config.name}, your ${config.role}. ${scenario ? `Let's practice ${scenario.title.toLowerCase()}.` : 'How can I help you today?'}`,
+        sender: 'tutor',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ]);
+    setSelectedScenario(scenarioId || null);
+    setShowScenarioModal(false);
+    onScenarioModalClose();
+  };
+
+  const handleScenarioChange = (scenarioId: string) => {
+    if (tutorConfig) {
+      initializeChat(tutorConfig, scenarioId);
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -406,6 +438,13 @@ export default function TutorChat() {
             </div>
             <h1 className="text-2xl font-bold">{tutorConfig.name}</h1>
             <p className="text-default-600">{tutorConfig.role}</p>
+            {selectedScenario && (
+              <div className="mt-2 px-4 py-2 bg-default-100 rounded-full">
+                <span className="text-sm text-default-600">
+                  {tutorConfig.scenarios.find((s: Scenario) => s.id === selectedScenario)?.title}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Real-time Transcription */}
@@ -457,8 +496,41 @@ export default function TutorChat() {
             </motion.div>
           )}
 
+          {/* Scenario Selection Modal */}
+          <Modal isOpen={isScenarioModalOpen} onClose={onScenarioModalClose} size="md">
+            <ModalContent>
+              <ModalHeader>
+                <h2 className="text-xl font-bold">Choose a Scenario</h2>
+              </ModalHeader>
+              <ModalBody>
+                <div className="grid grid-cols-1 gap-3 pb-6">
+                  {tutorConfig?.scenarios.map((scenario: Scenario) => (
+                    <Button
+                      key={scenario.id}
+                      variant={selectedScenario === scenario.id ? "solid" : "flat"}
+                      color="default"
+                      className={`w-full h-auto py-4 px-6 justify-start ${
+                        selectedScenario === scenario.id 
+                          ? 'bg-default-900 text-white hover:bg-default-800' 
+                          : 'hover:bg-default-100'
+                      }`}
+                      onPress={() => handleScenarioChange(scenario.id)}
+                    >
+                      <div className="flex flex-col items-start text-left">
+                        <span className="font-semibold">{scenario.title}</span>
+                        <span className={`text-sm ${selectedScenario === scenario.id ? 'text-white/70' : 'text-default-500'}`}>
+                          {scenario.description}
+                        </span>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+
           {/* Chat Modal */}
-          <Modal scrollBehavior={"inside"} isOpen={isOpen} onClose={onClose} size="2xl">
+          <Modal scrollBehavior={"inside"} isOpen={isChatModalOpen} onClose={onChatModalClose} size="2xl">
             <ModalContent>
               <ModalHeader>
                 <h2 className="text-xl font-bold">Chat with {tutorConfig.name}</h2>
@@ -532,7 +604,7 @@ export default function TutorChat() {
                 radius={"full"}
                 isIconOnly
                 className="w-12 h-12"
-                onPress={() => router.push('/app')}
+                onPress={onScenarioModalOpen}
                 startContent={
                   <LuArrowLeftRight className="h-6 w-6" />
                 }
@@ -544,7 +616,7 @@ export default function TutorChat() {
                 variant="light"
                 isIconOnly
                 className="w-12 h-12"
-                onPress={onOpen}
+                onPress={onChatModalOpen}
                 startContent={
                   <LuMessageSquare className="h-6 w-6" />
                 }
