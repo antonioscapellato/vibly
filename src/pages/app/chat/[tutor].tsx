@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from 'react-markdown';
 
 import { Button, Card, Avatar } from "@heroui/react";
 import {
@@ -83,6 +83,7 @@ interface Message {
   sender: 'user' | 'tutor';
   timestamp: string;
   speechTip?: string;
+  improvementTip?: string;
 }
 
 interface Scenario {
@@ -338,10 +339,22 @@ export default function TutorChat() {
       console.log('Completion response data:', responseData);
 
       if (!response.ok) {
-        throw new Error(responseData.message || 'Failed to get response from tutor');
+        const errorMessage = responseData.message || 'Failed to get response from tutor';
+        const errorDetails = responseData.error || '';
+        console.error('API Error:', errorMessage, errorDetails);
+        
+        // Add user-friendly error message
+        setMessages(prev => [...prev, {
+          id: currentMessageId + 1,
+          text: `I'm sorry, I encountered an error: ${errorMessage}${errorDetails ? ` (${errorDetails})` : ''}. The text response is still available, but I couldn't generate audio for it.`,
+          sender: 'tutor',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }]);
+        
+        throw new Error(`${errorMessage}${errorDetails ? `: ${errorDetails}` : ''}`);
       }
 
-      const { text: aiResponse, audio: audioBase64 } = responseData;
+      const { text: aiResponse, audio: audioBase64, improvementTip } = responseData;
 
       if (!aiResponse) {
         throw new Error('No response text received from tutor');
@@ -360,7 +373,8 @@ export default function TutorChat() {
         id: currentMessageId + 1,
         text: aiResponse,
         sender: 'tutor',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        improvementTip: improvementTip
       };
 
       // Update messages and pending responses atomically
@@ -494,6 +508,30 @@ export default function TutorChat() {
                 </Button>
               </div>
               <p className="text-default-900">{tempResponse}</p>
+              {messages[messages.length - 1]?.improvementTip && (
+                <div className="mt-4 p-3 bg-default-100 rounded-lg">
+                  <h4 className="font-semibold text-sm mb-2">💡 How to improve your response:</h4>
+                  <div className="text-sm text-default-600 prose prose-sm max-w-none">
+                    <ReactMarkdown
+                      components={{
+                        p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                        h1: ({node, ...props}) => <h1 className="text-xl font-bold mb-2" {...props} />,
+                        h2: ({node, ...props}) => <h2 className="text-lg font-bold mb-2" {...props} />,
+                        h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
+                        code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
+                        pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
+                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                        a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
+                      }}
+                    >
+                      {messages[messages.length - 1].improvementTip}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              )}
             </motion.div>
           )}
 
@@ -577,7 +615,50 @@ export default function TutorChat() {
                             <p>{msg.text}</p>
                             {msg.speechTip && (
                               <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
-                                💡 Tip: {msg.speechTip}
+                                <h4 className="font-semibold mb-1">💡 Speech Analysis:</h4>
+                                <div className="prose prose-sm max-w-none">
+                                  <ReactMarkdown
+                                    components={{
+                                      p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                                      ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                                      ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                                      li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                                      h1: ({node, ...props}) => <h1 className="text-xl font-bold mb-2" {...props} />,
+                                      h2: ({node, ...props}) => <h2 className="text-lg font-bold mb-2" {...props} />,
+                                      h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
+                                      code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
+                                      pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
+                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                                      a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
+                                    }}
+                                  >
+                                    {msg.speechTip}
+                                  </ReactMarkdown>
+                                </div>
+                              </div>
+                            )}
+                            {msg.improvementTip && (
+                              <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
+                                <h4 className="font-semibold mb-1">💡 How to improve your response:</h4>
+                                <div className="prose prose-sm max-w-none">
+                                  <ReactMarkdown
+                                    components={{
+                                      p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                                      ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                                      ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                                      li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                                      h1: ({node, ...props}) => <h1 className="text-xl font-bold mb-2" {...props} />,
+                                      h2: ({node, ...props}) => <h2 className="text-lg font-bold mb-2" {...props} />,
+                                      h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
+                                      code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
+                                      pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
+                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                                      a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
+                                    }}
+                                  >
+                                    {msg.improvementTip}
+                                  </ReactMarkdown>
+                                </div>
                               </div>
                             )}
                             <p className="text-xs mt-2 opacity-75">{msg.timestamp}</p>

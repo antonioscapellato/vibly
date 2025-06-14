@@ -49,14 +49,18 @@ export default async function handler(
         messages: [
           {
             role: "system",
-            content: "You are a helpful speech coach. Analyze the following transcribed speech and provide a brief, constructive tip or recommendation for improvement. Focus on clarity, pace, or structure. Keep it concise and encouraging."
+            content: `You are a helpful speech coach. Analyze the following transcribed speech and provide constructive feedback in this format:
+1. Clarity: Comment on pronunciation, pace, and enunciation
+2. Vocabulary: Suggest more precise or sophisticated word choices
+3. Structure: Note any improvements in sentence structure or flow
+Keep each section brief and encouraging. Focus on 1-2 key points per category.`
           },
           {
             role: "user",
             content: transcription.text
           }
         ],
-        max_tokens: 100
+        max_tokens: 200
       });
 
       const speechTip = analysisResponse.choices[0].message.content;
