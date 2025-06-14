@@ -1,4 +1,4 @@
-import { Button, Link } from '@heroui/react';
+import { Button, Image, Link } from '@heroui/react';
 import { FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 export const Footer = () => {
@@ -10,8 +10,14 @@ export const Footer = () => {
 
           {/* Left side - Logo and Tagline */}
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-fuchsia-500 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold">V</span>
+            <div className="w-12 h-12 relative">
+              <Image
+                src="/logo.png"
+                alt="Vibly Logo"
+                fill
+                className="object-contain"
+                radius={"full"}
+              />
             </div>
             <div>
               <h3 className="text-3xl font-bold">vibly.</h3>
