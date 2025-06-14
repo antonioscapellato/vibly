@@ -16,7 +16,7 @@ import {
 import Head from 'next/head';
 
 import { getTutorConfig } from '@/config/tutors';
-import { LuPlay, LuPause, LuMessageSquare, LuDownload, LuX, LuArrowLeftRight } from 'react-icons/lu';
+import { LuPlay, LuPause, LuMessageSquare, LuDownload, LuX, LuArrowLeftRight, LuImage } from 'react-icons/lu';
 import { TutorConfig } from '@/config/tutors';
 
 // Add type definitions for Web Speech API
@@ -85,6 +85,7 @@ interface Message {
   speechTip?: string;
   improvementTip?: string;
   score?: number;
+  imageUrl?: string;
 }
 
 interface Scenario {
@@ -116,6 +117,9 @@ export default function TutorChat() {
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
   const [showScenarioModal, setShowScenarioModal] = useState(true);
   const [conversationStartTime] = useState(new Date());
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [showImageButton, setShowImageButton] = useState(false);
+  const [imageError, setImageError] = useState<string | null>(null);
 
   useEffect(() => {
     if (tutorId && typeof tutorId === 'string') {
@@ -401,6 +405,70 @@ export default function TutorChat() {
     }
   };
 
+  const generateImage = async () => {
+    if (!messages.length) return;
+    
+    setIsGeneratingImage(true);
+    setImageError(null);
+    
+    try {
+      // Get the last few messages to create context
+      const recentMessages = messages.slice(-3).map(msg => msg.text).join(' ');
+      
+      // Create a prompt for DALL-E
+      const prompt = `Create a detailed, realistic image based on this conversation context: ${recentMessages}. The image should be natural and appropriate for a language learning context.`;
+      
+      const response = await fetch('/api/chat/generate-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to generate image');
+      }
+
+      if (!data.imageUrl) {
+        throw new Error('No image URL received');
+      }
+
+      // Add the image to the last tutor message
+      setMessages(prev => {
+        const updatedMessages = [...prev];
+        const lastTutorMessageIndex = updatedMessages.findIndex(msg => msg.sender === 'tutor');
+        if (lastTutorMessageIndex !== -1) {
+          updatedMessages[lastTutorMessageIndex] = {
+            ...updatedMessages[lastTutorMessageIndex],
+            imageUrl: data.imageUrl
+          };
+        }
+        return updatedMessages;
+      });
+    } catch (error) {
+      console.error('Error generating image:', error);
+      setImageError(error instanceof Error ? error.message : 'Failed to generate image');
+      
+      // Add error message to the chat
+      setMessages(prev => [...prev, {
+        id: Date.now(),
+        text: "I'm sorry, I couldn't generate an image at this time. Please try again later.",
+        sender: 'tutor',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }]);
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    setShowImageButton(lastMessage?.sender === 'tutor' && !lastMessage?.imageUrl);
+  }, [messages]);
+
   const getConversationStats = () => {
     const duration = new Date().getTime() - conversationStartTime.getTime();
     const minutes = Math.floor(duration / 60000);
@@ -431,15 +499,39 @@ export default function TutorChat() {
       <div className="min-h-screen flex flex-col items-center pb-20">
         {/* Vibly Logo and Text */}
         <div 
-          className="w-full max-w-2xl px-4 py-6 flex items-center gap-3 cursor-pointer"
-          onClick={() => router.push('/app')}
+          className="w-full max-w-2xl px-4 py-6 flex items-center justify-between"
         >
-          <Avatar 
-            src="/logo.png"
-            alt="Vibly"
-            className="w-8 h-8"
-          />
-          <span className="text-xl font-black text-default-900">vibly.</span>
+          <div 
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => router.push('/app')}
+          >
+            <Avatar 
+              src="/logo.png"
+              alt="Vibly"
+              className="w-8 h-8"
+            />
+            <span className="text-xl font-black text-default-900">vibly.</span>
+          </div>
+
+          {/* Image Generation Button with Error Tooltip */}
+          <div className="relative">
+            <Button
+              variant="light"
+              radius={"full"}
+              className="w-12 h-12"
+              onPress={generateImage}
+              isLoading={isGeneratingImage}
+              isDisabled={!showImageButton}
+              startContent={
+                <LuImage className={`h-6 w-6 ${!showImageButton ? 'opacity-50' : ''}`} />
+              }
+            />
+            {imageError && (
+              <div className="absolute right-0 mt-2 p-2 bg-red-100 text-red-700 rounded-lg text-sm whitespace-nowrap">
+                {imageError}
+              </div>
+            )}
+          </div>
         </div>
 
         <motion.div
@@ -623,6 +715,15 @@ export default function TutorChat() {
                             }`}
                           >
                             <p>{msg.text}</p>
+                            {msg.imageUrl && (
+                              <div className="mt-4">
+                                <img 
+                                  src={msg.imageUrl} 
+                                  alt="Generated conversation context" 
+                                  className="rounded-lg max-w-full h-auto"
+                                />
+                              </div>
+                            )}
                             {msg.speechTip && (
                               <div className="mt-2 p-2 bg-default-800/40 rounded text-sm">
                                 <div className="flex items-center justify-between mb-1">

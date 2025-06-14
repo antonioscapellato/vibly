@@ -14,7 +14,6 @@ export const Footer = () => {
               <Image
                 src="/logo.png"
                 alt="Vibly Logo"
-                fill
                 className="object-contain"
                 radius={"full"}
               />
