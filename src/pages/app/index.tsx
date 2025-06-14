@@ -98,23 +98,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Quick Actions */}
-          <motion.div variants={fadeIn}>
-            <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-            <div className="flex space-x-4">
-              <Button 
-                className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white"
-                onClick={() => router.push('/app/chat/john')}
-              >
-                Start New Chat
-              </Button>
-              <Button 
-                onPress={() => router.push('/app/profile')}
-              >
-                View Profile
-              </Button>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </>
