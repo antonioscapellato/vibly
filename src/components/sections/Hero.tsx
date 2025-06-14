@@ -120,7 +120,7 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-fuchsia-50 to-violet-50 flex items-center">
+    <section className="min-h-screen flex items-center">
       <div className="container mx-auto px-4 py-20">
         <motion.div
           initial="hidden"
@@ -150,7 +150,7 @@ export const Hero = () => {
               animate={{ scale: [1, 1.1, 1], rotate: [0, 10, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
             >
-              <img src="/assets/characters/german.png" alt="German Character" className="w-32 h-32 rounded-full shadow-2xl object-cover border-4 border-fuchsia-300" />
+              <img src="/assets/characters/english.png" alt="English Character" className="w-32 h-32 rounded-full shadow-2xl object-cover border-4 border-fuchsia-300" />
             </motion.div>
             {/* Interactive avatars in a circle */}
             {avatars.map((avatar, idx) => (
@@ -166,13 +166,17 @@ export const Hero = () => {
                 dragElastic={0.5}
                 dragTransition={{ bounceStiffness: 200, bounceDamping: 20 }}
               >
-                <img src={avatar.src} alt={avatar.alt} className="w-24 h-24 rounded-full shadow-xl object-cover border-4 border-fuchsia-100" />
+                <Avatar src={avatar.src} alt={avatar.alt} className="w-24 h-24 rounded-full shadow-xl object-cover border-4 border-fuchsia-100" />
               </motion.div>
             ))}
           </motion.div>
           <motion.div variants={fadeIn}>
-            <Button className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all">
-              Try it free
+            <Button 
+              radius={"full"}
+              size={"lg"}
+              className={"px-12 py-8 text-3xl text-white font-black bg-black"}
+            >
+              Start learning now
             </Button>
           </motion.div>
         </motion.div>
@@ -182,7 +186,7 @@ export const Hero = () => {
             <ModalHeader>{selected?.name}</ModalHeader>
             <ModalBody>
               <div className="flex flex-col items-center">
-                <img src={selected?.src} alt={selected?.alt} className="w-24 h-24 rounded-full mb-4 border-4 border-fuchsia-200" />
+                <Avatar src={selected?.src} alt={selected?.alt} className="w-24 h-24 rounded-full mb-4 border-4 border-fuchsia-200" />
                 <p className="text-lg text-gray-700 mb-2">{selected?.desc}</p>
               </div>
             </ModalBody>
