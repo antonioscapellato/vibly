@@ -49,25 +49,32 @@ export default async function handler(
         messages: [
           {
             role: "system",
-            content: `You are a helpful speech coach. Analyze the following transcribed speech and provide constructive feedback in this format:
-1. Clarity: Comment on pronunciation, pace, and enunciation
-2. Vocabulary: Suggest more precise or sophisticated word choices
-3. Structure: Note any improvements in sentence structure or flow
-Keep each section brief and encouraging. Focus on 1-2 key points per category.`
+            content: `You are a concise speech coach. Analyze the transcribed speech and provide:
+1. A score from 0-10 (whole number only)
+2. One specific tip for improvement
+
+Format your response exactly like this:
+Score: [number]/10
+Tip: [one specific, actionable tip]
+
+Keep the tip under 100 characters and focus on the most impactful improvement needed.`
           },
           {
             role: "user",
             content: transcription.text
           }
         ],
-        max_tokens: 200
+        max_tokens: 150
       });
 
       const speechTip = analysisResponse.choices[0].message.content;
+      const scoreMatch = speechTip.match(/Score: (\d+)\/10/);
+      const score = scoreMatch ? parseInt(scoreMatch[1]) : null;
 
       return res.status(200).json({ 
         text: transcription.text,
-        speechTip: speechTip
+        speechTip: speechTip,
+        score: score
       });
     } catch (error) {
       console.error('OpenAI API error:', error);

@@ -84,6 +84,7 @@ interface Message {
   timestamp: string;
   speechTip?: string;
   improvementTip?: string;
+  score?: number;
 }
 
 interface Scenario {
@@ -615,7 +616,14 @@ export default function TutorChat() {
                             <p>{msg.text}</p>
                             {msg.speechTip && (
                               <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
-                                <h4 className="font-semibold mb-1">💡 Speech Analysis:</h4>
+                                <div className="flex items-center justify-between mb-1">
+                                  <h4 className="font-semibold">💡 Speech Analysis</h4>
+                                  {msg.score !== undefined && (
+                                    <span className="text-sm font-medium bg-white/20 px-2 py-0.5 rounded">
+                                      Score: {msg.score}/10
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="prose prose-sm max-w-none">
                                   <ReactMarkdown
                                     components={{
