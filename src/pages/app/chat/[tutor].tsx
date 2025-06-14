@@ -449,7 +449,7 @@ export default function TutorChat() {
 
           {/* Real-time Transcription */}
           {isRecording && currentTranscription && (
-            <div className="mt-4 p-4 bg-default-100 rounded-lg">
+            <div className="mt-4 p-4 bg-default-50 rounded-lg">
               <p className="text-default-600 italic">{currentTranscription}</p>
             </div>
           )}
@@ -460,7 +460,7 @@ export default function TutorChat() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="mt-4 p-6 bg-default-100 rounded-lg"
+              className="mt-4 p-6 bg-default-50 rounded-xl"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
