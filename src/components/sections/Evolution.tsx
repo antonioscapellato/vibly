@@ -17,7 +17,7 @@ const staggerContainer = {
 
 export const Evolution = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-green-50 to-blue-50">
+    <section className="py-20 bg-gradient-to-br from-fuchsia-50 to-violet-50">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
@@ -28,7 +28,7 @@ export const Evolution = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-4xl font-bold text-gray-900 mb-6"
+            className="text-4xl font-bold text-black mb-6"
           >
             We evolved by talking, not testing.
           </motion.h2>

@@ -18,7 +18,7 @@ const staggerContainer = {
 
 export const CTA = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-coral-500 to-orange-500">
+    <section className="py-20 bg-gradient-to-br from-fuchsia-500 to-violet-500">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
@@ -34,7 +34,7 @@ export const CTA = () => {
             Join the movement. Speak your future.
           </motion.h2>
           <motion.div variants={fadeIn}>
-            <Button className="bg-white text-coral-500 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all">
+            <Button className="bg-white text-fuchsia-500 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all">
               Get Started Free
             </Button>
           </motion.div>

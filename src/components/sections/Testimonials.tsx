@@ -28,7 +28,7 @@ export const Testimonials = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-4xl font-bold text-gray-900 mb-12 text-center"
+            className="text-4xl font-bold text-black mb-12 text-center"
           >
             What our learners are saying
           </motion.h2>
@@ -37,11 +37,11 @@ export const Testimonials = () => {
             className="grid md:grid-cols-3 gap-8"
           >
             {[1, 2, 3].map((_, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-6">
+              <div key={index} className="bg-fuchsia-50 rounded-2xl p-6">
                 <p className="text-gray-600 italic mb-4">
                   "Vibly transformed how I learn languages. The conversations feel natural and engaging."
                 </p>
-                <p className="font-semibold">- Testimonial {index + 1}</p>
+                <p className="font-semibold text-black">- Testimonial {index + 1}</p>
               </div>
             ))}
           </motion.div>

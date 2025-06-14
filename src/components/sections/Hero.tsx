@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
+
+//HeroUI
 import { Button } from "@heroui/react";
+import { Avatar } from "@heroui/react";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -18,7 +21,7 @@ const staggerContainer = {
 
 export const Hero = () => {
   return (
-    <section className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center">
+    <section className="min-h-screen bg-gradient-to-br from-fuchsia-50 to-violet-50 flex items-center">
       <div className="container mx-auto px-4 py-20">
         <motion.div
           initial="hidden"
@@ -28,7 +31,7 @@ export const Hero = () => {
         >
           <motion.h1 
             variants={fadeIn}
-            className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
+            className="text-5xl md:text-7xl font-bold text-black mb-6"
           >
             Learn with AI Friends<br />Speak your world.
           </motion.h1>
@@ -39,7 +42,7 @@ export const Hero = () => {
             Vibly is the future of language learning — social, immersive, and built around real conversations.
           </motion.p>
           <motion.div variants={fadeIn}>
-            <Button className="bg-coral-500 hover:bg-coral-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all">
+            <Button className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all">
               Try it free
             </Button>
           </motion.div>

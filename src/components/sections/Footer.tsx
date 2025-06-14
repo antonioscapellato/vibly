@@ -1,11 +1,11 @@
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-black text-white py-12">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-16">
           {/* Left side - Logo and Tagline */}
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-coral-500 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-fuchsia-500 rounded-full flex items-center justify-center">
               <span className="text-2xl font-bold">V</span>
             </div>
             <div>
@@ -36,7 +36,7 @@ export const Footer = () => {
 
         {/* Bottom - Large VIBLY text */}
         <div className="text-center">
-          <h1 className="text-8xl font-bold text-gray-800">VIBLY</h1>
+          <h1 className="text-8xl font-bold text-fuchsia-500">VIBLY</h1>
         </div>
       </div>
     </footer>

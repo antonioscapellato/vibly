@@ -28,7 +28,7 @@ export const Problem = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-4xl font-bold text-gray-900 mb-6 text-center"
+            className="text-4xl font-bold text-black mb-6 text-center"
           >
             Learning today is broken.
           </motion.h2>
@@ -43,11 +43,11 @@ export const Problem = () => {
             className="grid md:grid-cols-2 gap-8 items-center"
           >
             <div className="bg-gray-100 rounded-2xl p-8">
-              <h3 className="text-2xl font-semibold mb-4">Traditional Learning</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-black">Traditional Learning</h3>
               <p className="text-gray-600">Static textbooks and repetitive exercises</p>
             </div>
-            <div className="bg-blue-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-semibold mb-4">Vibly's Approach</h3>
+            <div className="bg-fuchsia-50 rounded-2xl p-8">
+              <h3 className="text-2xl font-semibold mb-4 text-black">Vibly's Approach</h3>
               <p className="text-gray-600">Dynamic conversations with real people</p>
             </div>
           </motion.div>

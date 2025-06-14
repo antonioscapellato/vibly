@@ -32,7 +32,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50">
+    <section className="py-20 bg-gradient-to-br from-fuchsia-50 to-violet-50">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
@@ -43,7 +43,7 @@ export const HowItWorks = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-4xl font-bold text-gray-900 mb-6"
+            className="text-4xl font-bold text-black mb-6"
           >
             Real people. Real conversations. Real fluency.
           </motion.h2>
@@ -57,7 +57,7 @@ export const HowItWorks = () => {
                 variants={fadeIn}
                 className="bg-white rounded-2xl p-6 shadow-lg"
               >
-                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-black">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </motion.div>
             ))}

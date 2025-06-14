@@ -28,7 +28,7 @@ export const EnglishFirst = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-4xl font-bold text-gray-900 mb-6 text-center"
+            className="text-4xl font-bold text-black mb-6 text-center"
           >
             Why start with English?
           </motion.h2>
@@ -39,15 +39,15 @@ export const EnglishFirst = () => {
             <div>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="text-coral-500 mr-2">•</span>
+                  <span className="text-fuchsia-500 mr-2">•</span>
                   <p className="text-gray-600">English is the global language of opportunity</p>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-coral-500 mr-2">•</span>
+                  <span className="text-fuchsia-500 mr-2">•</span>
                   <p className="text-gray-600">It's the #1 factor in social mobility, income, and career access</p>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-coral-500 mr-2">•</span>
+                  <span className="text-fuchsia-500 mr-2">•</span>
                   <p className="text-gray-600">But it's still being taught like a dead language</p>
                 </li>
               </ul>
