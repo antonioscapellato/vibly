@@ -430,7 +430,10 @@ export default function TutorChat() {
       </Head>
       <div className="min-h-screen flex flex-col items-center pb-20">
         {/* Vibly Logo and Text */}
-        <div className="w-full max-w-2xl px-4 py-6 flex items-center gap-3">
+        <div 
+          className="w-full max-w-2xl px-4 py-6 flex items-center gap-3 cursor-pointer"
+          onClick={() => router.push('/app')}
+        >
           <Avatar 
             src="/logo.png"
             alt="Vibly"
