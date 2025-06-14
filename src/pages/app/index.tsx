@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { tutors } from '../../pages/utils/tutors';
+import { tutors } from '@/config/tutors';
+
 import Head from 'next/head';
 
 // HeroUI

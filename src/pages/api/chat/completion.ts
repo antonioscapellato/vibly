@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
-import { getTutorConfig } from '../../utils/tutors';
+import { getTutorConfig } from '@/config/tutors';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -22,16 +22,24 @@ export default async function handler(
     const tutorConfig = getTutorConfig(tutorId);
     console.log('Tutor config:', tutorConfig);
 
+    // Ensure messages array is properly formatted and includes all history
+    const formattedMessages = [
+      {
+        role: "system",
+        content: tutorConfig.systemPrompt
+      },
+      ...messages.map((msg: any) => ({
+        role: msg.role,
+        content: msg.content
+      }))
+    ];
+
+    console.log('Formatted messages for API:', formattedMessages);
+
     try {
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: tutorConfig.systemPrompt
-          },
-          ...messages
-        ],
+        messages: formattedMessages,
       });
 
       const response = completion.choices[0].message;

@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Button, Card, Avatar } from "@heroui/react";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
-import { getTutorConfig } from "../../utils/tutors";
+import { getTutorConfig } from '@/config/tutors';
+
 import Head from 'next/head';
 
 // Add type definitions for Web Speech API
@@ -77,11 +78,13 @@ export default function TutorChat() {
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentTranscription, setCurrentTranscription] = useState('');
+  const [pendingResponses, setPendingResponses] = useState<number[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const [tutorConfig, setTutorConfig] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const messageCounterRef = useRef<number>(0);
 
   useEffect(() => {
     if (tutorId && typeof tutorId === 'string') {
@@ -188,20 +191,22 @@ export default function TutorChat() {
     if (!tutorId || typeof tutorId !== 'string') return;
     
     setIsLoading(true);
+    const currentMessageId = ++messageCounterRef.current;
+    setPendingResponses(prev => [...prev, currentMessageId]);
+
     try {
       // Convert blob to base64
       const reader = new FileReader();
       const base64Audio = await new Promise<string>((resolve) => {
         reader.onloadend = () => {
           const base64 = reader.result as string;
-          // Remove the data URL prefix (e.g., "data:audio/webm;base64,")
           const base64Clean = base64.split(',')[1];
           resolve(base64Clean);
         };
         reader.readAsDataURL(audioBlob);
       });
 
-      // Send to our API endpoint instead of directly to OpenAI
+      // Send to our API endpoint
       const transcriptionResponse = await fetch('/api/chat/transcribe', {
         method: 'POST',
         headers: {
@@ -227,7 +232,7 @@ export default function TutorChat() {
       }
 
       const userMessage: Message = {
-        id: messages.length + 1,
+        id: currentMessageId,
         text: text,
         sender: 'user',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -243,7 +248,7 @@ export default function TutorChat() {
           messages: messages.map(msg => ({
             role: msg.sender === 'user' ? 'user' : 'assistant',
             content: msg.text
-          })),
+          })).slice(-10),
           tutorId
         }),
       });
@@ -262,43 +267,52 @@ export default function TutorChat() {
         throw new Error('No response text received from tutor');
       }
 
-      const aiMessage: Message = {
-        id: messages.length + 2,
-        text: aiResponse,
-        sender: 'tutor',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setMessages(prev => [...prev, aiMessage]);
-
-      // Only attempt to play audio if we received audio data
-      if (audioBase64) {
-        try {
-          const responseAudioBlob = new Blob([Buffer.from(audioBase64, 'base64')], { type: 'audio/mpeg' });
-          const audioUrl = URL.createObjectURL(responseAudioBlob);
-          const audioElement = new Audio(audioUrl);
-          await audioElement.play();
-        } catch (audioError) {
-          console.error('Error playing audio:', audioError);
-          // Add a message to indicate audio failed but continue with text
-          setMessages(prev => [...prev, {
-            id: messages.length + 3,
-            text: "(Audio playback failed, but you can still read the response)",
+      // Only add the response if it's the most recent pending response
+      setPendingResponses(prev => {
+        const newPending = prev.filter(id => id !== currentMessageId);
+        if (newPending.length === 0 || newPending[newPending.length - 1] === currentMessageId) {
+          const aiMessage: Message = {
+            id: currentMessageId + 1,
+            text: aiResponse,
             sender: 'tutor',
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          }]);
+          };
+          setMessages(prev => [...prev, aiMessage]);
+
+          // Only attempt to play audio if we received audio data
+          if (audioBase64) {
+            const playAudio = async () => {
+              try {
+                const responseAudioBlob = new Blob([Buffer.from(audioBase64, 'base64')], { type: 'audio/mpeg' });
+                const audioUrl = URL.createObjectURL(responseAudioBlob);
+                const audioElement = new Audio(audioUrl);
+                await audioElement.play();
+              } catch (audioError) {
+                console.error('Error playing audio:', audioError);
+                setMessages(prev => [...prev, {
+                  id: currentMessageId + 2,
+                  text: "(Audio playback failed, but you can still read the response)",
+                  sender: 'tutor',
+                  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                }]);
+              }
+            };
+            playAudio();
+          }
         }
-      }
+        return newPending;
+      });
     } catch (error) {
       console.error('Error:', error);
-      // Add error message to chat
       setMessages(prev => [...prev, {
-        id: messages.length + 2,
+        id: currentMessageId + 1,
         text: "I'm sorry, I encountered an error. Please try again.",
         sender: 'tutor',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     } finally {
       setIsLoading(false);
+      setPendingResponses(prev => prev.filter(id => id !== currentMessageId));
     }
   };
 
