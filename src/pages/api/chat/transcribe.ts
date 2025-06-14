@@ -68,7 +68,7 @@ Keep the tip under 100 characters and focus on the most impactful improvement ne
       });
 
       const speechTip = analysisResponse.choices[0].message.content;
-      const scoreMatch = speechTip.match(/Score: (\d+)\/10/);
+      const scoreMatch = speechTip?.match(/Score: (\d+)\/10/);
       const score = scoreMatch ? parseInt(scoreMatch[1]) : null;
 
       return res.status(200).json({ 

@@ -300,7 +300,7 @@ export default function TutorChat() {
         throw new Error(`Transcription failed: ${errorText}`);
       }
 
-      const { text } = await transcriptionResponse.json();
+      const { text, speechTip, score } = await transcriptionResponse.json();
       console.log('Transcription response:', text);
 
       if (!text) {
@@ -312,7 +312,8 @@ export default function TutorChat() {
         text: text,
         sender: 'user',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        speechTip: text.speechTip
+        speechTip: speechTip,
+        score: score
       };
       
       // Update messages with user message first
@@ -369,18 +370,23 @@ export default function TutorChat() {
         await playAudio(audioBase64);
       }
 
-      // Create the AI message
-      const aiMessage: Message = {
-        id: currentMessageId + 1,
-        text: aiResponse,
-        sender: 'tutor',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        improvementTip: improvementTip
-      };
-
-      // Update messages and pending responses atomically
-      setMessages(prev => [...prev, aiMessage]);
-      setPendingResponses(prev => prev.filter(id => id !== currentMessageId));
+      // Update the user message with the improvement tip
+      setMessages(prev => {
+        const updatedMessages = [...prev];
+        const lastUserMessageIndex = updatedMessages.findIndex(msg => msg.id === currentMessageId);
+        if (lastUserMessageIndex !== -1) {
+          updatedMessages[lastUserMessageIndex] = {
+            ...updatedMessages[lastUserMessageIndex],
+            improvementTip: improvementTip
+          };
+        }
+        return [...updatedMessages, {
+          id: currentMessageId + 1,
+          text: aiResponse,
+          sender: 'tutor',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }];
+      });
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, {
@@ -465,7 +471,7 @@ export default function TutorChat() {
           {/* Real-time Transcription */}
           {isRecording && currentTranscription && (
             <div className="mt-4 p-4 bg-default-50 rounded-lg">
-              <p className="text-default-600 italic">{currentTranscription}</p>
+              <p className="text-default-600">{currentTranscription}</p>
             </div>
           )}
 
@@ -524,7 +530,7 @@ export default function TutorChat() {
                         h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
                         code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
                         pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
-                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 mb-2" {...props} />,
                         a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
                       }}
                     >
@@ -615,11 +621,11 @@ export default function TutorChat() {
                           >
                             <p>{msg.text}</p>
                             {msg.speechTip && (
-                              <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
+                              <div className="mt-2 p-2 bg-default-800/40 rounded text-sm">
                                 <div className="flex items-center justify-between mb-1">
-                                  <h4 className="font-semibold">💡 Speech Analysis</h4>
+                                  <h4 className="font-semibold">Speech Analysis</h4>
                                   {msg.score !== undefined && (
-                                    <span className="text-sm font-medium bg-white/20 px-2 py-0.5 rounded">
+                                    <span className="text-sm font-medium text-default-400 px-2 py-0.5 rounded">
                                       Score: {msg.score}/10
                                     </span>
                                   )}
@@ -636,7 +642,7 @@ export default function TutorChat() {
                                       h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
                                       code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
                                       pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
-                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 mb-2" {...props} />,
                                       a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
                                     }}
                                   >
@@ -646,7 +652,7 @@ export default function TutorChat() {
                               </div>
                             )}
                             {msg.improvementTip && (
-                              <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
+                              <div className="mt-2 p-2 bg-white/10 rounded text-sm">
                                 <h4 className="font-semibold mb-1">💡 How to improve your response:</h4>
                                 <div className="prose prose-sm max-w-none">
                                   <ReactMarkdown
@@ -660,7 +666,7 @@ export default function TutorChat() {
                                       h3: ({node, ...props}) => <h3 className="text-base font-bold mb-2" {...props} />,
                                       code: ({node, ...props}) => <code className="bg-default-200 px-1 py-0.5 rounded" {...props} />,
                                       pre: ({node, ...props}) => <pre className="bg-default-200 p-2 rounded mb-2 overflow-x-auto" {...props} />,
-                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 italic mb-2" {...props} />,
+                                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-default-300 pl-4 mb-2" {...props} />,
                                       a: ({node, ...props}) => <a className="text-blue-600 hover:underline" {...props} />
                                     }}
                                   >
