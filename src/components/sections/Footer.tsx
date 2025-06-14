@@ -13,8 +13,8 @@ export const Footer = () => {
               <span className="text-2xl font-bold">V</span>
             </div>
             <div>
-              <h3 className="text-xl font-bold">Vibly</h3>
-              <p className="text-default-400">Learn with AI Friends</p>
+              <h3 className="text-3xl font-bold">Vibly</h3>
+              <p className="text-xl text-default-400">Learn with AI Friends</p>
             </div>
           </div>
 
@@ -34,7 +34,7 @@ export const Footer = () => {
 
         {/* Bottom - Large VIBLY text */}
         <div className="text-center">
-          <h1 className="text-9xl font-bold text-fuchsia-500">VIBLY</h1>
+          <h1 className="text-[12rem] font-bold text-fuchsia-500">VIBLY</h1>
         </div>
       </div>
     </footer>
