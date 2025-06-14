@@ -79,7 +79,7 @@ export default function Home() {
               {allTutors.map((tutor) => (
                 <div 
                   key={tutor.id}
-                  className="p-6 cursor-pointer"
+                  className="p-6 cursor-pointer border border-default-100 rounded-xl"
                   onClick={() => router.push(`/app/chat/${tutor.id}`)}
                 >
                   <div className="flex items-center space-x-4">
