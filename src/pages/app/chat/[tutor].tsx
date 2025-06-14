@@ -448,6 +448,12 @@ export default function TutorChat() {
         }
         return updatedMessages;
       });
+
+      // Update tempResponse to include the image
+      setTempResponse(prev => {
+        const lastMessage = messages[messages.length - 1];
+        return lastMessage?.text || '';
+      });
     } catch (error) {
       console.error('Error generating image:', error);
       setImageError(error instanceof Error ? error.message : 'Failed to generate image');
@@ -521,7 +527,8 @@ export default function TutorChat() {
               className="w-12 h-12"
               onPress={generateImage}
               isLoading={isGeneratingImage}
-              isDisabled={!showImageButton}
+              //isDisabled={!showImageButton}
+              isDisabled={true}
               startContent={
                 <LuImage className={`h-6 w-6 ${!showImageButton ? 'opacity-50' : ''}`} />
               }
@@ -610,6 +617,15 @@ export default function TutorChat() {
                 </Button>
               </div>
               <p className="text-default-900">{tempResponse}</p>
+              {messages[messages.length - 1]?.imageUrl && (
+                <div className="mt-4">
+                  <img 
+                    src={messages[messages.length - 1].imageUrl} 
+                    alt="Generated conversation context" 
+                    className="rounded-lg max-w-full h-auto"
+                  />
+                </div>
+              )}
               {messages[messages.length - 1]?.improvementTip && (
                 <div className="mt-4 p-3 bg-default-100 rounded-lg">
                   <h4 className="font-semibold text-sm mb-2">💡 How to improve your response:</h4>

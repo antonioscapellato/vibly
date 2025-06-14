@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
+const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -28,26 +28,32 @@ export default async function handler(
       });
     }
 
-    console.log('Generating image with prompt:', prompt);
+    console.log('Generating image showing the object or place that you see on the conversation (for example if the people are talking about Hyde Park in London generate and image of the Hyde park in London):', prompt);
 
     try {
-      const response = await openai.images.generate({
-        model: process.env.OPENAI_IMAGE_MODEL || '',
+      const response = await client.images.generate({
+        model: "gpt-image-1",
         prompt: prompt,
         n: 1,
         size: "1024x1024",
         quality: "medium",
       });
 
-      console.log('DALL-E API response:', response);
+      console.log('DALL-E API response received');
 
-      if (!response.data || !response.data[0]?.url) {
+      if (!response.data) {
         console.error('Invalid response from DALL-E:', response);
-        throw new Error('No image URL received from DALL-E');
+        throw new Error('No image data received from DALL-E');
       }
 
+      // Convert base64 to data URL
+      const imageData = response.data[0].b64_json;
+      const imageUrl = `data:image/png;base64,${imageData}`;
+
+      console.log(imageUrl)
+
       return res.status(200).json({
-        imageUrl: response.data[0].url
+        imageUrl: imageUrl
       });
     } catch (apiError: any) {
       console.error('DALL-E API error details:', {
