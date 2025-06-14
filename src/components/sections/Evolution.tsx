@@ -95,7 +95,7 @@ export const Evolution = () => {
       >
         <div className="relative w-full h-full">
           <Image 
-            src="/assets/landing/athens.webp" 
+            src="/assets/landing/athens.png" 
             alt="The School of Athens" 
             className="w-full h-full object-cover"
           />
