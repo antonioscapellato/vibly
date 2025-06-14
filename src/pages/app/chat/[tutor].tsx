@@ -294,7 +294,8 @@ export default function TutorChat() {
         },
         body: JSON.stringify({
           audio: base64Audio,
-          format: 'webm'
+          format: 'webm',
+          tutorId
         }),
       });
 

@@ -5,10 +5,21 @@ import { join } from 'path';
 import { tmpdir } from 'os';
 import { createReadStream } from 'fs';
 import { unlink } from 'fs/promises';
+import { getTutorConfig } from '@/config/tutors';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+// Map tutor roles to language codes
+const languageMap: Record<string, string> = {
+  'English Tutor': 'en',
+  'Italian Tutor': 'it',
+  'Spanish Tutor': 'es',
+  'German Tutor': 'de',
+  'Chinese Tutor': 'zh',
+  'French Tutor': 'fr'
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,11 +30,19 @@ export default async function handler(
   }
 
   try {
-    const { audio, format } = req.body;
+    const { audio, format, tutorId } = req.body;
 
     if (!audio) {
       return res.status(400).json({ message: 'No audio data provided' });
     }
+
+    if (!tutorId) {
+      return res.status(400).json({ message: 'Tutor ID is required' });
+    }
+
+    // Get tutor config to determine language
+    const tutorConfig = getTutorConfig(tutorId);
+    const language = languageMap[tutorConfig.role] || 'en'; // Default to English if role not found
 
     // Convert base64 to buffer
     const audioBuffer = Buffer.from(audio, 'base64');
@@ -33,10 +52,11 @@ export default async function handler(
     await writeFile(tempFilePath, audioBuffer);
 
     try {
-      // Call OpenAI API with file stream
+      // Call OpenAI API with file stream and language
       const transcription = await openai.audio.transcriptions.create({
         file: createReadStream(tempFilePath),
         model: "whisper-1",
+        language: language
       });
 
       if (!transcription || !transcription.text) {
