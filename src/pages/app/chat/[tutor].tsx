@@ -474,7 +474,8 @@ export default function TutorChat() {
                 <Button
                   isIconOnly
                   variant="light"
-                  className="w-10 h-10"
+                  radius={"full"}
+                  className="w-10 h-10 text-default-400"
                   onPress={() => {
                     if (audioRef.current) {
                       if (isPlaying) {
@@ -493,6 +494,28 @@ export default function TutorChat() {
                 </Button>
               </div>
               <p className="text-default-900">{tempResponse}</p>
+            </motion.div>
+          )}
+
+          {/* Loading Animation */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mt-4 p-6 bg-default-50 rounded-xl"
+            >
+              <div className="flex items-center gap-3">
+                <Avatar 
+                  src={tutorConfig.avatar}
+                  alt={tutorConfig.name}
+                  size="lg"
+                />
+                <div className="flex-1">
+                  <div className="h-4 bg-default-200 rounded-full w-3/4 animate-pulse mb-2"></div>
+                  <div className="h-4 bg-default-200 rounded-full w-1/2 animate-pulse"></div>
+                </div>
+              </div>
             </motion.div>
           )}
 
