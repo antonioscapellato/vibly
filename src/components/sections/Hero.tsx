@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import { tutors } from '../../pages/utils/tutors';
 
 //HeroUI
 import { Button, Link } from "@heroui/react";
@@ -40,71 +41,13 @@ export const Hero = () => {
   };
   const [selected, setSelected] = React.useState<AvatarType | null>(null);
 
-  const avatars: AvatarType[] = [
-    {
-      src: "/assets/characters/german.png",
-      alt: "John",
-      name: "John",
-      desc: "English teacher from Berlin",
-      button: "Start learning English with John"
-    },
-    {
-      src: "/assets/characters/french.png",
-      alt: "Marie",
-      name: "Marie",
-      desc: "French tutor from Paris",
-      button: "Start learning French with Marie"
-    },
-    {
-      src: "/assets/characters/italian.png",
-      alt: "Luca",
-      name: "Luca",
-      desc: "Italian coach from Rome",
-      button: "Start learning Italian with Luca"
-    },
-    {
-      src: "/assets/characters/spanish.png",
-      alt: "Sofia",
-      name: "Sofia",
-      desc: "Spanish mentor from Madrid",
-      button: "Start learning Spanish with Sofia"
-    },
-    {
-      src: "/assets/characters/french.png",
-      alt: "Claire",
-      name: "Claire",
-      desc: "Conversational French partner",
-      button: "Practice French with Claire"
-    },
-    {
-      src: "/assets/characters/italian.png",
-      alt: "Marco",
-      name: "Marco",
-      desc: "Italian language enthusiast",
-      button: "Practice Italian with Marco"
-    },
-    {
-      src: "/assets/characters/english.png",
-      alt: "Anna",
-      name: "Anna",
-      desc: "English learner from Hamburg",
-      button: "Help Anna learn English"
-    },
-    {
-      src: "/assets/characters/sapnish.png",
-      alt: "Carlos",
-      name: "Carlos",
-      desc: "Spanish teacher from Barcelona",
-      button: "Start learning Spanish with Carlos"
-    },
-    {
-      src: "/assets/characters/french.png",
-      alt: "Émile",
-      name: "Émile",
-      desc: "French language coach",
-      button: "Start learning French with Émile"
-    }
-  ];
+  const avatars: AvatarType[] = Object.values(tutors).map(tutor => ({
+    src: tutor.avatar,
+    alt: tutor.name,
+    name: tutor.name,
+    desc: tutor.desc,
+    button: tutor.button,
+  }));
 
   // Circular positions for 8 avatars
   const positions = [
