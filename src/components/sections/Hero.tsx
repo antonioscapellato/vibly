@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 
 //HeroUI
-import { Button } from "@heroui/react";
+import { Button, Link } from "@heroui/react";
 import { Avatar } from "@heroui/react";
 import {
   Modal,
@@ -120,8 +120,8 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="min-h-screen flex items-center">
-      <div className="container mx-auto px-4 py-20">
+    <section className="flex items-center">
+      <div className="container mx-auto px-4 py-6">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -130,7 +130,7 @@ export const Hero = () => {
         >
           <motion.h1 
             variants={fadeIn}
-            className="text-4xl font-light text-default-500 mb-4"
+            className="text-4xl font-black text-default-200 mb-12"
           >
             vibly.
           </motion.h1>
@@ -138,14 +138,9 @@ export const Hero = () => {
             variants={fadeIn}
             className="text-5xl font-black md:text-7xl text-black mb-6"
           >
-            Learning in a human way
+            Learning the way it was always meant to be.
           </motion.h1>
-          <motion.p 
-            variants={fadeIn}
-            className="text-2xl md:text-4xl text-gray-600 mb-8"
-          >
-            Learnings for human
-          </motion.p>
+
           <motion.div
             variants={fadeIn}
             className="relative flex justify-center items-center mb-12 h-72 w-full"
@@ -178,9 +173,11 @@ export const Hero = () => {
           </motion.div>
           <motion.div variants={fadeIn}>
             <Button 
+              as={Link}
               radius={"full"}
               size={"lg"}
               className={"px-12 py-8 text-3xl text-white font-black bg-black"}
+              href={"/app"}
             >
               Start learning now
             </Button>
