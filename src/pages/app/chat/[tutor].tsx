@@ -1,10 +1,22 @@
 import { motion } from "framer-motion";
-import { Button, Card, Avatar } from "@heroui/react";
+
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
-import { getTutorConfig } from '@/config/tutors';
+
+import { Button, Card, Avatar } from "@heroui/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@heroui/react";
 
 import Head from 'next/head';
+
+import { getTutorConfig } from '@/config/tutors';
+import { BsChatDots, BsDownload, BsXCircle, BsMicFill, BsStopFill } from 'react-icons/bs';
 
 // Add type definitions for Web Speech API
 interface SpeechRecognitionEvent extends Event {
@@ -69,6 +81,7 @@ interface Message {
   text: string;
   sender: 'user' | 'tutor';
   timestamp: string;
+  speechTip?: string;
 }
 
 export default function TutorChat() {
@@ -85,6 +98,7 @@ export default function TutorChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const messageCounterRef = useRef<number>(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (tutorId && typeof tutorId === 'string') {
@@ -235,7 +249,8 @@ export default function TutorChat() {
         id: currentMessageId,
         text: text,
         sender: 'user',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        speechTip: text.speechTip
       };
       
       // Update messages with user message first
@@ -328,12 +343,12 @@ export default function TutorChat() {
         <title>{tutorConfig ? `Chat with ${tutorConfig.name}` : 'Vibly - Chat'}</title>
         <link rel="icon" href="/logo.png" />
       </Head>
-      <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen flex items-center justify-center pb-20">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          className="max-w-2xl mx-auto"
+          className="w-full max-w-2xl px-4"
         >
           {/* Centered Avatar and Info */}
           <div className="flex flex-col items-center mb-8">
@@ -351,49 +366,124 @@ export default function TutorChat() {
             <Button
               className={`${
                 isRecording 
-                  ? 'bg-red-500 hover:bg-red-600' 
-                  : 'bg-fuchsia-500 hover:bg-fuchsia-600'
-              } text-white px-8 py-4 text-lg rounded-full`}
+                  ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
+                  : 'bg-default-900'
+              } text-white px-8 py-4 text-lg rounded-full flex items-center gap-2`}
               onClick={isRecording ? stopRecording : startRecording}
               disabled={isLoading}
             >
-              {isRecording ? 'Stop Talking' : 'Start Talking'}
+              {isRecording ? (
+                <>
+                  <BsStopFill className="h-6 w-6" />
+                  Stop Talking
+                </>
+              ) : (
+                <>
+                  <BsMicFill className="h-6 w-6" />
+                  Start Talking
+                </>
+              )}
             </Button>
           </div>
 
           {/* Real-time Transcription */}
           {isRecording && currentTranscription && (
-            <div className="mb-4 p-4 bg-gray-100 rounded-lg">
+            <div className="mt-4 p-4 bg-gray-100 rounded-lg">
               <p className="text-gray-600 italic">{currentTranscription}</p>
             </div>
           )}
 
-          {/* Conversation Window */}
-          <Card className="p-6 h-[400px] overflow-hidden relative">
-            <div className="h-full overflow-y-auto">
-              <div className="space-y-4">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[70%] rounded-lg p-4 ${
-                        msg.sender === 'user'
-                          ? 'bg-fuchsia-500 text-white'
-                          : 'bg-gray-100 text-gray-900'
-                      }`}
-                    >
-                      <p>{msg.text}</p>
-                      <p className="text-xs mt-2 opacity-75">{msg.timestamp}</p>
+          {/* Chat Modal */}
+          <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+            <ModalContent>
+              <ModalHeader>Chat with {tutorConfig.name}</ModalHeader>
+              <ModalBody>
+                <Card className="p-6 h-[400px] overflow-hidden relative">
+                  <div className="h-full overflow-y-auto">
+                    <div className="space-y-4">
+                      {messages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[70%] rounded-lg p-4 ${
+                              msg.sender === 'user'
+                                ? 'bg-default-900 text-white'
+                                : 'bg-default-100 text-default-900'
+                            }`}
+                          >
+                            <p>{msg.text}</p>
+                            {msg.speechTip && (
+                              <div className="mt-2 p-2 bg-white/10 rounded text-sm italic">
+                                💡 Tip: {msg.speechTip}
+                              </div>
+                            )}
+                            <p className="text-xs mt-2 opacity-75">{msg.timestamp}</p>
+                          </div>
+                        </div>
+                      ))}
+                      <div ref={messagesEndRef} />
                     </div>
                   </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-            </div>
-          </Card>
+                </Card>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </motion.div>
+
+        {/* Bottom Menu */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+          <div className="max-w-2xl mx-auto px-4 py-3">
+            <div className="flex justify-between items-center">
+              <Button
+                variant="light"
+                className="flex items-center gap-2"
+                onClick={onOpen}
+              >
+                <BsChatDots className="h-5 w-5" />
+                Chat History
+              </Button>
+
+              <Button
+                variant="light"
+                className="flex items-center gap-2"
+                onClick={() => {
+                  const chatContent = messages.map(msg => 
+                    `${msg.sender === 'user' ? 'You' : tutorConfig.name}: ${msg.text}`
+                  ).join('\n\n');
+                  const blob = new Blob([chatContent], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `chat-with-${tutorConfig.name}-${new Date().toISOString().split('T')[0]}.txt`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <BsDownload className="h-5 w-5" />
+                Download
+              </Button>
+
+              <Button
+                color="danger"
+                variant="light"
+                className="flex items-center gap-2"
+                onClick={() => router.push('/app')}
+              >
+                <BsXCircle className="h-5 w-5" />
+                Exit Lesson
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
