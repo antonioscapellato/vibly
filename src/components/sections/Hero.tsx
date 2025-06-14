@@ -130,6 +130,12 @@ export const Hero = () => {
         >
           <motion.h1 
             variants={fadeIn}
+            className="text-4xl font-light text-default-500 mb-4"
+          >
+            vibly.
+          </motion.h1>
+          <motion.h1 
+            variants={fadeIn}
             className="text-5xl font-black md:text-7xl text-black mb-6"
           >
             Learning in a human way
