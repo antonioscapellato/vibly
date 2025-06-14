@@ -237,7 +237,12 @@ export default function TutorChat() {
         sender: 'user',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
+      
+      // Update messages with user message first
       setMessages(prev => [...prev, userMessage]);
+
+      // Wait for state update to complete
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       const response = await fetch('/api/chat/completion', {
         method: 'POST',
@@ -245,7 +250,7 @@ export default function TutorChat() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages: messages.map(msg => ({
+          messages: [...messages, userMessage].map(msg => ({
             role: msg.sender === 'user' ? 'user' : 'assistant',
             content: msg.text
           })).slice(-10),
@@ -267,41 +272,38 @@ export default function TutorChat() {
         throw new Error('No response text received from tutor');
       }
 
-      // Only add the response if it's the most recent pending response
-      setPendingResponses(prev => {
-        const newPending = prev.filter(id => id !== currentMessageId);
-        if (newPending.length === 0 || newPending[newPending.length - 1] === currentMessageId) {
-          const aiMessage: Message = {
-            id: currentMessageId + 1,
-            text: aiResponse,
-            sender: 'tutor',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          };
-          setMessages(prev => [...prev, aiMessage]);
+      // Create the AI message
+      const aiMessage: Message = {
+        id: currentMessageId + 1,
+        text: aiResponse,
+        sender: 'tutor',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
 
-          // Only attempt to play audio if we received audio data
-          if (audioBase64) {
-            const playAudio = async () => {
-              try {
-                const responseAudioBlob = new Blob([Buffer.from(audioBase64, 'base64')], { type: 'audio/mpeg' });
-                const audioUrl = URL.createObjectURL(responseAudioBlob);
-                const audioElement = new Audio(audioUrl);
-                await audioElement.play();
-              } catch (audioError) {
-                console.error('Error playing audio:', audioError);
-                setMessages(prev => [...prev, {
-                  id: currentMessageId + 2,
-                  text: "(Audio playback failed, but you can still read the response)",
-                  sender: 'tutor',
-                  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                }]);
-              }
-            };
-            playAudio();
+      // Update messages and pending responses atomically
+      setMessages(prev => [...prev, aiMessage]);
+      setPendingResponses(prev => prev.filter(id => id !== currentMessageId));
+
+      // Only attempt to play audio if we received audio data
+      if (audioBase64) {
+        const playAudio = async () => {
+          try {
+            const responseAudioBlob = new Blob([Buffer.from(audioBase64, 'base64')], { type: 'audio/mpeg' });
+            const audioUrl = URL.createObjectURL(responseAudioBlob);
+            const audioElement = new Audio(audioUrl);
+            await audioElement.play();
+          } catch (audioError) {
+            console.error('Error playing audio:', audioError);
+            setMessages(prev => [...prev, {
+              id: currentMessageId + 2,
+              text: "(Audio playback failed, but you can still read the response)",
+              sender: 'tutor',
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }]);
           }
-        }
-        return newPending;
-      });
+        };
+        playAudio();
+      }
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, {

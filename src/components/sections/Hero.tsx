@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { tutors } from '../../pages/utils/tutors';
+import { tutors } from '@/config/tutors';
 
 //HeroUI
 import { Button, Link } from "@heroui/react";
