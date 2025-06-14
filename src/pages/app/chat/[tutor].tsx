@@ -166,7 +166,15 @@ export default function TutorChat() {
       const responseData = await response.json();
       console.log('Completion response data:', responseData);
 
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Failed to get response from tutor');
+      }
+
       const { text: aiResponse, audio: audioBase64 } = responseData;
+
+      if (!aiResponse) {
+        throw new Error('No response text received from tutor');
+      }
 
       const aiMessage: Message = {
         id: messages.length + 2,
@@ -185,10 +193,24 @@ export default function TutorChat() {
           await audioElement.play();
         } catch (audioError) {
           console.error('Error playing audio:', audioError);
+          // Add a message to indicate audio failed but continue with text
+          setMessages(prev => [...prev, {
+            id: messages.length + 3,
+            text: "(Audio playback failed, but you can still read the response)",
+            sender: 'tutor',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }]);
         }
       }
     } catch (error) {
       console.error('Error:', error);
+      // Add error message to chat
+      setMessages(prev => [...prev, {
+        id: messages.length + 2,
+        text: "I'm sorry, I encountered an error. Please try again.",
+        sender: 'tutor',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }]);
     } finally {
       setIsLoading(false);
     }
