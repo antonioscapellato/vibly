@@ -43,6 +43,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: 'Travel English',
         description: 'Prepare for your next trip abroad',
         prompt: "You are helping the student prepare for travel. Focus on travel-related vocabulary, directions, and common tourist situations."
+      },
+      {
+        id: 'academic',
+        title: 'Academic English',
+        description: 'Develop your academic writing and speaking skills',
+        prompt: "You are helping the student with academic English. Focus on formal writing, research vocabulary, and academic presentation skills."
       }
     ]
   },
@@ -73,6 +79,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: 'Viaggi in Italia',
         description: 'Prepare for your trip to Italy',
         prompt: "You are helping the student prepare for travel in Italy. Focus on travel-related vocabulary, directions, and common tourist situations."
+      },
+      {
+        id: 'art',
+        title: 'Arte e Cultura',
+        description: 'Explore Italian art and cultural heritage',
+        prompt: "You are discussing Italian art, architecture, and cultural heritage. Focus on art-related vocabulary and help the student understand Italy's rich cultural history."
       }
     ]
   },
@@ -103,6 +115,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: 'Viajes por España',
         description: 'Prepare for your trip to Spain',
         prompt: "You are helping the student prepare for travel in Spain. Focus on travel-related vocabulary, directions, and common tourist situations."
+      },
+      {
+        id: 'literature',
+        title: 'Literatura Española',
+        description: 'Discover Spanish literature and poetry',
+        prompt: "You are discussing Spanish literature and poetry. Focus on literary vocabulary and help the student understand famous Spanish authors and their works."
       }
     ]
   },
@@ -133,6 +151,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: 'Deutsche Kultur',
         description: 'Learn about German culture and traditions',
         prompt: "You are discussing German culture, traditions, and customs. Focus on cultural vocabulary and help the student understand German cultural context."
+      },
+      {
+        id: 'technology',
+        title: 'Technologie und Innovation',
+        description: 'Learn German technology and innovation vocabulary',
+        prompt: "You are discussing German technology, engineering, and innovation. Focus on technical vocabulary and help the student understand Germany's role in technological advancement."
       }
     ]
   },
@@ -163,6 +187,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: '中国文化',
         description: 'Learn about Chinese culture and traditions',
         prompt: "You are discussing Chinese culture, traditions, and customs. Focus on cultural vocabulary and help the student understand Chinese cultural context."
+      },
+      {
+        id: 'calligraphy',
+        title: '书法艺术',
+        description: 'Learn about Chinese calligraphy and writing',
+        prompt: "You are discussing Chinese calligraphy and writing. Focus on calligraphy-related vocabulary and help the student understand the art of Chinese characters."
       }
     ]
   },
@@ -193,6 +223,12 @@ export const tutors: Record<string, TutorConfig> = {
         title: 'Voyage en France',
         description: 'Prepare for your trip to France',
         prompt: "You are helping the student prepare for travel in France. Focus on travel-related vocabulary, directions, and common tourist situations."
+      },
+      {
+        id: 'fashion',
+        title: 'Mode et Style',
+        description: 'Learn about French fashion and style',
+        prompt: "You are discussing French fashion and style. Focus on fashion-related vocabulary and help the student understand French fashion culture and trends."
       }
     ]
   },
