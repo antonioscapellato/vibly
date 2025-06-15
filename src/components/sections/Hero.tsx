@@ -60,7 +60,7 @@ export const Hero = () => {
   const getCirclePositions = (count: number) => {
     const positions = [];
     const radius = 25;
-    const centerX = 40;
+    const centerX = 35;
     const centerY = 40;
 
     for (let i = 0; i < count; i++) {
@@ -86,9 +86,12 @@ export const Hero = () => {
         >
           <motion.h1 
             variants={fadeIn}
-            className="text-4xl font-black text-default-200 mb-12"
+            className="mb-6 flex items-center justify-center"
           >
-            vibly.
+            <div className="border px-8 border-default-200 rounded-full px-4 py-2 inline-flex items-center">
+              <Avatar src="/logo.png" alt="Vibly Logo" className="h-10 w-10 mr-2" />
+              <span className="text-4xl font-black text-default-900">vibly.</span>
+            </div>
           </motion.h1>
           <motion.h1 
             variants={fadeIn}
@@ -135,7 +138,7 @@ export const Hero = () => {
                 <Avatar 
                   src={avatar.src} 
                   alt={avatar.alt} 
-                  className="w-32 h-32 rounded-full shadow-xl object-cover border-4 border-fuchsia-100 hover:border-fuchsia-300 transition-colors duration-300" 
+                  className="w-28 h-28 md:w-32 md:h-32 rounded-full shadow-xl object-cover border-4 border-fuchsia-100 hover:border-fuchsia-300 transition-colors duration-300" 
                 />
               </motion.div>
             ))}
@@ -145,7 +148,7 @@ export const Hero = () => {
               as={Link}
               radius={"full"}
               size={"lg"}
-              className={"px-12 py-8 text-3xl text-white font-black bg-black transition-colors duration-300"}
+              className={"px-8 md:px-12 py-8 text-3xl text-white font-black bg-black transition-colors duration-300"}
               href={"/app"}
             >
               Start learning now

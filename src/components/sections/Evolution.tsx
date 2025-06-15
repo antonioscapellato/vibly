@@ -1,6 +1,4 @@
-import { Image } from "@heroui/react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 50 },
@@ -13,24 +11,10 @@ const slideIn = {
 };
 
 export const Evolution = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const opacity1 = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const opacity2 = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
-  const opacity3 = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-  const opacity4 = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
-
   return (
-    <div ref={containerRef} className="h-[400vh] relative">
-      {/* Slide 1: Learning is Broken */}
-      <motion.div 
-        style={{ opacity: opacity1 }}
-        className="h-screen sticky top-0 flex items-center justify-center"
-      >
+    <div className="relative">
+      {/* Section 1: Learning is Broken */}
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -50,13 +34,10 @@ export const Evolution = () => {
             Workbooks. Memorization. Silence. We don't learn like this — and we never did.
           </motion.p>
         </motion.div>
-      </motion.div>
+      </div>
 
-      {/* Slide 2: Medieval Times */}
-      <motion.div 
-        style={{ opacity: opacity2 }}
-        className="h-screen sticky bg-black top-0 flex items-center justify-center"
-      >
+      {/* Section 2: Medieval Times */}
+      <div className="min-h-screen relative bg-black">
         <div className="relative w-full h-full">
           <img 
             src="/assets/landing/medieval.png" 
@@ -85,13 +66,10 @@ export const Evolution = () => {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Slide 3: School of Athens */}
-      <motion.div 
-        style={{ opacity: opacity3 }}
-        className="h-screen sticky top-0 flex items-center justify-center bg-black"
-      >
+      {/* Section 3: School of Athens */}
+      <div className="min-h-screen relative bg-black">
         <div className="relative w-full h-full">
           <img 
             src="/assets/landing/athens.png" 
@@ -120,13 +98,10 @@ export const Evolution = () => {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Slide 4: Vibly's Revolution */}
-      <motion.div 
-        style={{ opacity: opacity4 }}
-        className="h-screen bg-white sticky top-0 flex items-center justify-center"
-      >
+      {/* Section 4: Vibly's Revolution */}
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -159,7 +134,7 @@ export const Evolution = () => {
             </div>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 }; 
