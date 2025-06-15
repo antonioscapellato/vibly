@@ -88,7 +88,7 @@ export const Hero = () => {
             variants={fadeIn}
             className="mb-6 flex items-center justify-center"
           >
-            <div className="border px-8 border-default-200 rounded-full px-4 py-2 inline-flex items-center">
+            <div className="border px-10 border-default-200 rounded-full py-2 inline-flex items-center">
               <Avatar src="/logo.png" alt="Vibly Logo" className="h-10 w-10 mr-2" />
               <span className="text-4xl font-black text-default-900">vibly.</span>
             </div>

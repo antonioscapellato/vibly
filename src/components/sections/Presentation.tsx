@@ -67,7 +67,7 @@ export const Presentation: FC = () => {
 
 
       {/* Section 2: The Solution - Vibly */}
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen pt-36 bg-white flex items-center justify-center">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -86,23 +86,46 @@ export const Presentation: FC = () => {
           >
             The first vibe learning app that makes learning feel natural
           </motion.p>
+
+          {/* Mobile Screenshots */}
+          <motion.div
+            variants={fadeIn}
+            className="flex justify-center items-center gap-4 mb-16"
+          >
+            <Image
+              src="/assets/screenshots/screenshot_01.png"
+              alt="Mobile Screenshot 1"
+              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100"
+            />
+            <Image
+              src="/assets/screenshots/screenshot_02.png"
+              alt="Mobile Screenshot 2"
+              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100 mt-8"
+            />
+            <Image
+              src="/assets/screenshots/screenshot_00.png"
+              alt="Mobile Screenshot 3"
+              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100"
+            />
+          </motion.div>
+
           <motion.div 
             variants={fadeIn}
             className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto"
           >
-            <div className="bg-default-50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
+            <div className="bg-default-50/50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
               <h3 className="text-2xl font-semibold mb-4 text-black">Learn Like Humans</h3>
               <p className="text-lg text-default-600 leading-relaxed">
                 Natural conversations and discussions that make learning feel effortless
               </p>
             </div>
-            <div className="bg-default-50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
+            <div className="bg-default-50/50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
               <h3 className="text-2xl font-semibold mb-4 text-black">Instant Feedback</h3>
               <p className="text-lg text-default-600 leading-relaxed">
                 Get immediate responses and guidance to improve your learning journey
               </p>
             </div>
-            <div className="bg-default-50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
+            <div className="bg-default-50/50 rounded-3xl p-8 transform hover:scale-105 transition-transform duration-300">
               <h3 className="text-2xl font-semibold mb-4 text-black">Track Progress</h3>
               <p className="text-lg text-default-600 leading-relaxed">
                 Set goals and monitor your improvement with detailed analytics

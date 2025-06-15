@@ -25,6 +25,7 @@ const staggerContainer = {
 import { Hero } from "../components/sections/Hero";
 import { Footer } from "../components/sections/Footer";
 import { Presentation } from "@/components/sections/Presentation";
+import { CTA } from "@/components/sections/CTA";
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
       <main>
         <Hero />
         <Presentation />
+        <CTA />
         <Footer />
       </main>
     </>
