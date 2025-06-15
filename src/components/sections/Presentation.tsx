@@ -89,17 +89,17 @@ export const Presentation: FC = () => {
             <Image
               src="/assets/screenshots/screenshot_01.png"
               alt="Mobile Screenshot 1"
-              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100"
+              className="md:w-80 rounded-2xl shadow-xl border-4 border-default-100"
             />
             <Image
               src="/assets/screenshots/screenshot_02.png"
               alt="Mobile Screenshot 2"
-              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100 mt-8"
+              className="md:w-80 rounded-2xl shadow-xl border-4 border-default-100 mt-8"
             />
             <Image
               src="/assets/screenshots/screenshot_00.png"
               alt="Mobile Screenshot 3"
-              className="md:w-64 rounded-xl shadow-xl border-4 border-default-100"
+              className="md:w-80 rounded-2xl shadow-xl border-4 border-default-100"
             />
           </motion.div>
 
