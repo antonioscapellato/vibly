@@ -64,11 +64,11 @@ export const CTA = () => {
           className="max-w-4xl mx-auto text-center"
         >
           <motion.div variants={fadeIn} className="mb-8">
-            <h2 className="text-4xl md:text-7xl font-black text-black mb-6">
+            <h2 className="text-3xl md:text-7xl font-black text-black mb-6">
               Ready to transform <br/> your learning journey?
             </h2>
-            <p className="text-xl text-default-600 max-w-2xl mx-auto">
-              Join thousands of learners who are already <br/> experiencing personalized education with AI tutors.
+            <p className="md:text-xl text-default-600 max-w-2xl mx-auto">
+              Join thousands of learners who are already <br/> experiencing personalized education with AI.
             </p>
           </motion.div>
 
@@ -86,12 +86,12 @@ export const CTA = () => {
 
           <motion.div 
             variants={fadeIn}
-            className="flex flex-wrap justify-center gap-6 mb-12"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12"
           >
             {avatars.map((avatar) => (
               <motion.div
                 key={avatar.name}
-                className="cursor-pointer"
+                className="cursor-pointer flex flex-col items-center"
                 whileHover={{ 
                   scale: 1.1,
                   transition: { duration: 0.2 }
@@ -101,9 +101,9 @@ export const CTA = () => {
                 <Avatar 
                   src={avatar.src} 
                   alt={avatar.alt} 
-                  className="w-20 h-20 md:w-24 md:h-24 rounded-full shadow-lg object-cover border-4 border-fuchsia-100 hover:border-fuchsia-300 transition-colors duration-300" 
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg object-cover border-4 border-fuchsia-100 hover:border-fuchsia-300 transition-colors duration-300" 
                 />
-                <p className="mt-2 text-sm font-medium text-default-700">{avatar.name}</p>
+                <p className="mt-2 text-sm font-medium text-default-700 text-center">{avatar.name}</p>
               </motion.div>
             ))}
           </motion.div>
