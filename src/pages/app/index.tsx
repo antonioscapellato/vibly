@@ -48,7 +48,7 @@ export default function Home() {
           </motion.div>
 
           {/* Progress Section */}
-          <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-8">
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Daily Streak</h3>
               <div className="flex items-center justify-between border border-default-100 p-6 rounded-xl">

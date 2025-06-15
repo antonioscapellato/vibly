@@ -21,8 +21,8 @@ const staggerContainer = {
   }
 };
 
+// Components
 import { Hero } from "../components/sections/Hero";
-import { Evolution } from "../components/sections/Evolution";
 import { Footer } from "../components/sections/Footer";
 import { Presentation } from "@/components/sections/Presentation";
 
