@@ -6,7 +6,7 @@
 
 Vibly is a modern language learning platform that revolutionizes how we learn languages through AI-powered conversations and social interactions. Built with cutting-edge technology and a focus on real-world communication, Vibly makes language learning natural, engaging, and effective.
 
-## Overview
+## What is Vibly?
 
 Vibly is designed to make language learning natural, engaging, and effective. By leveraging cutting-edge AI, Vibly provides personalized conversation partners and real-time practice, transforming the traditional learning experience into an interactive journey.
 
