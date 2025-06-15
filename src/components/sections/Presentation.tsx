@@ -34,9 +34,9 @@ export const Presentation: FC = () => {
                 className="w-full h-full object-cover grayscale"
               />
               <div className="absolute z-40 bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col items-center justify-end text-white p-8 min-h-[50%]">
-                <h3 className="text-5xl font-semibold mb-6">How It Has Been</h3>
-                <p className="text-xl leading-relaxed text-center">
-                  Static textbooks, memorization, and passive <br/> learning methods that don't engage our natural learning abilities
+                <h3 className="text-5xl text-left font-semibold mb-6">How It Has Been</h3>
+                <p className="text-xl text-left leading-relaxed text-center">
+                  Static textbooks, memorization, and passive <br className={"hidden md:block"} /> learning methods that don't engage our natural learning abilities
                 </p>
               </div>
             </div>
@@ -49,9 +49,9 @@ export const Presentation: FC = () => {
                 className="w-full h-full object-cover grayscale"
               />
               <div className="absolute z-40 bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col items-center justify-end text-white p-8 min-h-[50%]">
-                <h3 className="text-5xl font-semibold mb-6">How It Should Be</h3>
-                <p className="text-xl leading-relaxed text-center">
-                  Interactive, engaging, and natural learning <br/> through conversation and real-world application
+                <h3 className="text-5xl text-left font-semibold mb-6">How It Should Be</h3>
+                <p className="text-xl text-left leading-relaxed text-center">
+                  Interactive, engaging, and natural learning <br className={"hidden md:block"} /> through conversation and real-world application
                 </p>
               </div>
             </div>
