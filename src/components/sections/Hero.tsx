@@ -97,12 +97,19 @@ export const Hero = () => {
             variants={fadeIn}
             className="text-5xl font-black md:text-7xl text-black"
           >
-            Learning the way it was always meant to be.
+            Learning, finally done right.
           </motion.h1>
+
+          <motion.p
+            variants={fadeIn}
+            className="text-xl md:text-2xl text-default-600 mt-4 mb-8"
+          >
+            Learn with AI tutors that get you.
+          </motion.p>
 
           <motion.div
             variants={fadeIn}
-            className="relative flex justify-center items-center mb-12 h-[400px] w-full"
+            className="relative flex justify-center items-center mb-6 md:mb-12 h-[400px] w-full"
           >
             {/* Interactive avatars in a circle */}
             {avatars.map((avatar, idx) => (
@@ -148,7 +155,7 @@ export const Hero = () => {
               as={Link}
               radius={"full"}
               size={"lg"}
-              className={"px-8 md:px-12 py-8 text-3xl text-white font-black bg-black transition-colors duration-300"}
+              className={"px-8 md:px-12 py-8 text-3xl text-white font-bold md:font-black bg-black transition-colors duration-300"}
               href={"/app"}
             >
               Start learning now
@@ -167,8 +174,8 @@ export const Hero = () => {
             </ModalBody>
             <ModalFooter>
               <Button 
-                className="w-full bg-black font-bold text-white transition-colors duration-300" 
-                onClick={() => {
+                className="w-full bg-black font-semibold text-white transition-colors duration-300" 
+                onPress={() => {
                   onClose();
                   if (selected?.id) {
                     router.push(`/app/chat/${selected.id}`);

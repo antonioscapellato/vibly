@@ -49,7 +49,7 @@ export const Footer = () => {
 
           {/* Bottom - Large VIBLY text */}
           <div className="text-center">
-            <h1 className="text-8xl md:text-[20rem] text-default-900 font-bold">vibly.</h1>
+            <h1 className="text-9xl md:text-[20rem] text-default-900 font-bold">vibly.</h1>
           </div>
         </div>
       </div>

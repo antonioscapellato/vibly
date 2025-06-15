@@ -24,13 +24,7 @@ export const Presentation: FC = () => {
           viewport={{ once: true }}
           className="w-full h-full relative"
         >
-          <motion.h2 
-            variants={fadeIn}
-            className="text-7xl font-bold text-black mb-8 leading-tight text-center absolute top-8 left-1/2 transform -translate-x-1/2 z-10"
-          >
-            The Problem with Learning
-          </motion.h2>
-          <div className="grid grid-cols-2 h-full">
+          <div className="grid md:grid-cols-2 h-full">
             {/* Left side */}
             <div className="relative h-full">
               <Image 
@@ -76,9 +70,9 @@ export const Presentation: FC = () => {
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-7xl font-bold text-black mb-8 leading-tight"
+            className="text-6xl md:text-7xl font-bold text-black mb-8 leading-tight"
           >
-            Introducing Vibly
+            Hello, Vibly!
           </motion.h2>
           <motion.p 
             variants={fadeIn}
