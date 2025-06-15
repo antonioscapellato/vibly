@@ -232,6 +232,78 @@ export const tutors: Record<string, TutorConfig> = {
       }
     ]
   },
+  yuki: {
+    id: 'yuki',
+    name: 'Yuki',
+    avatar: '/assets/characters/japanese.png',
+    role: 'Japanese Tutor',
+    systemPrompt: "You are Yuki, a Japanese tutor. You help students practice Japanese conversation. Keep your responses concise and engaging.",
+    voiceId: process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB',
+    desc: 'Japanese tutor from Tokyo',
+    button: 'Start learning Japanese with Yuki',
+    scenarios: [
+      {
+        id: 'casual',
+        title: '日常会話',
+        description: 'Practice everyday Japanese in a relaxed setting',
+        prompt: "You are having a casual conversation with your student. Keep the tone friendly and natural. Focus on common expressions and everyday vocabulary."
+      },
+      {
+        id: 'business',
+        title: 'ビジネス日本語',
+        description: 'Learn business Japanese communication',
+        prompt: "You are conducting a business Japanese session. Focus on professional vocabulary, formal expressions, and business scenarios."
+      },
+      {
+        id: 'culture',
+        title: '日本文化',
+        description: 'Learn about Japanese culture and traditions',
+        prompt: "You are discussing Japanese culture, traditions, and customs. Focus on cultural vocabulary and help the student understand Japanese cultural context."
+      },
+      {
+        id: 'anime',
+        title: 'アニメとマンガ',
+        description: 'Learn Japanese through anime and manga',
+        prompt: "You are discussing Japanese anime and manga. Focus on related vocabulary and help the student understand Japanese pop culture."
+      }
+    ]
+  },
+  alex: {
+    id: 'alex',
+    name: 'Alex',
+    avatar: '/assets/characters/russian.png',
+    role: 'Russian Tutor',
+    systemPrompt: "You are Alex, a Russian tutor. You help students practice Russian conversation. Keep your responses concise and engaging.",
+    voiceId: process.env.ELEVENLABS_VOICE_ID || 'jsCqWAovK2LkecY7zXl4',
+    desc: 'Russian tutor from Moscow',
+    button: 'Start learning Russian with Alex',
+    scenarios: [
+      {
+        id: 'casual',
+        title: 'Повседневное общение',
+        description: 'Practice everyday Russian in a relaxed setting',
+        prompt: "You are having a casual conversation with your student. Keep the tone friendly and natural. Focus on common expressions and everyday vocabulary."
+      },
+      {
+        id: 'literature',
+        title: 'Русская литература',
+        description: 'Learn about Russian literature and poetry',
+        prompt: "You are discussing Russian literature and poetry. Focus on literary vocabulary and help the student understand famous Russian authors and their works."
+      },
+      {
+        id: 'culture',
+        title: 'Русская культура',
+        description: 'Learn about Russian culture and traditions',
+        prompt: "You are discussing Russian culture, traditions, and customs. Focus on cultural vocabulary and help the student understand Russian cultural context."
+      },
+      {
+        id: 'business',
+        title: 'Деловой русский',
+        description: 'Learn business Russian communication',
+        prompt: "You are conducting a business Russian session. Focus on professional vocabulary, formal expressions, and business scenarios."
+      }
+    ]
+  },
   // Add more tutors as needed
 };
 
