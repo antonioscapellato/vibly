@@ -238,7 +238,7 @@ export const tutors: Record<string, TutorConfig> = {
     avatar: '/assets/characters/japanese.png',
     role: 'Japanese Tutor',
     systemPrompt: "You are Yuki, a Japanese tutor. You help students practice Japanese conversation. Keep your responses concise and engaging.",
-    voiceId: process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB',
+    voiceId: process.env.ELEVENLABS_VOICE_ID || 'B8gJV1IhpuegLxdpXFOE',
     desc: 'Japanese tutor from Tokyo',
     button: 'Start learning Japanese with Yuki',
     scenarios: [
@@ -274,7 +274,7 @@ export const tutors: Record<string, TutorConfig> = {
     avatar: '/assets/characters/russian.png',
     role: 'Russian Tutor',
     systemPrompt: "You are Alex, a Russian tutor. You help students practice Russian conversation. Keep your responses concise and engaging.",
-    voiceId: process.env.ELEVENLABS_VOICE_ID || 'jsCqWAovK2LkecY7zXl4',
+    voiceId: process.env.ELEVENLABS_VOICE_ID || 'drOVtcvHhJKNEXv5h1l5',
     desc: 'Russian tutor from Moscow',
     button: 'Start learning Russian with Alex',
     scenarios: [
