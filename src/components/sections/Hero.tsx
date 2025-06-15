@@ -60,7 +60,7 @@ export const Hero = () => {
   const getCirclePositions = (count: number) => {
     const positions = [];
     const radius = 25;
-    const centerX = 35;
+    const centerX = 36;
     const centerY = 40;
 
     for (let i = 0; i < count; i++) {
@@ -97,12 +97,12 @@ export const Hero = () => {
             variants={fadeIn}
             className="text-5xl font-black md:text-7xl text-black"
           >
-            Learning, finally done right.
+            Learning, finally <br className={"hidden md:block"} /> done right.
           </motion.h1>
 
           <motion.p
             variants={fadeIn}
-            className="text-xl md:text-2xl text-default-600 mt-4 mb-8"
+            className="md:hidden text-xl md:text-2xl text-default-600 mt-4 mb-8"
           >
             Learn with AI tutors that get you.
           </motion.p>
