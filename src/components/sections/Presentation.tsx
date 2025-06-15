@@ -22,33 +22,46 @@ export const Presentation: FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center px-8"
+          className="w-full h-full relative"
         >
           <motion.h2 
             variants={fadeIn}
-            className="text-7xl font-bold text-black mb-8 leading-tight"
+            className="text-7xl font-bold text-black mb-8 leading-tight text-center absolute top-8 left-1/2 transform -translate-x-1/2 z-10"
           >
             The Problem with Learning
           </motion.h2>
-          <motion.div 
-            variants={fadeIn}
-            className="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto"
-          >
-            <div className="rounded-3xl p-10 transform hover:scale-105 transition-transform duration-300">
-              <Image isBlurred src="/assets/landing/before.png" alt="Before" className="mb-6"/>
-              <h3 className="text-3xl font-semibold mb-6 text-black">How It Has Been</h3>
-              <p className="text-xl text-default-600 leading-relaxed">
-                Static textbooks, memorization, and passive learning methods that don't engage our natural learning abilities
-              </p>
+          <div className="grid grid-cols-2 h-full">
+            {/* Left side */}
+            <div className="relative h-full">
+              <Image 
+                src="/assets/landing/before.png" 
+                alt="Before" 
+                radius={"none"}
+                className="w-full h-full object-cover grayscale"
+              />
+              <div className="absolute z-40 bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col items-center justify-end text-white p-8 min-h-[50%]">
+                <h3 className="text-5xl font-semibold mb-6">How It Has Been</h3>
+                <p className="text-xl leading-relaxed text-center">
+                  Static textbooks, memorization, and passive <br/> learning methods that don't engage our natural learning abilities
+                </p>
+              </div>
             </div>
-            <div className="rounded-3xl p-10 transform hover:scale-105 transition-transform duration-300">
-              <Image isBlurred src="/assets/landing/after.png" alt="After" className="mb-6"/>
-              <h3 className="text-3xl font-semibold mb-6 text-black">How It Should Be</h3>
-              <p className="text-xl text-default-600 leading-relaxed">
-                Interactive, engaging, and natural learning through conversation and real-world application
-              </p>
+            {/* Right side */}
+            <div className="relative h-full">
+              <Image  
+                src="/assets/landing/after.png" 
+                alt="After" 
+                radius={"none"}
+                className="w-full h-full object-cover grayscale"
+              />
+              <div className="absolute z-40 bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col items-center justify-end text-white p-8 min-h-[50%]">
+                <h3 className="text-5xl font-semibold mb-6">How It Should Be</h3>
+                <p className="text-xl leading-relaxed text-center">
+                  Interactive, engaging, and natural learning <br/> through conversation and real-world application
+                </p>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 

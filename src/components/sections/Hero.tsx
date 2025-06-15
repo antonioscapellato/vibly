@@ -77,7 +77,7 @@ export const Hero = () => {
 
   return (
     <section className="flex items-center">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 pt-6 pb-12">
         <motion.div
           initial="hidden"
           animate="visible"
