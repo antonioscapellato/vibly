@@ -4,6 +4,11 @@
 
 ### See Vibly in action by visiting our live demo: [https://vibly-demo.vercel.app/](https://vibly-demo.vercel.app/)
 
+### Watch our Demo Video
+
+
+[Demo Video](/demo.mp4)
+
 Vibly is a modern language learning platform that revolutionizes how we learn languages through AI-powered conversations and social interactions. Built with cutting-edge technology and a focus on real-world communication, Vibly makes language learning natural, engaging, and effective.
 
 ## What is Vibly?
